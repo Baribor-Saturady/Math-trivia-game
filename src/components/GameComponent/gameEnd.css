@@ -1,0 +1,25 @@
+.score-board {
+    background-color: rgba(255, 255, 255, 0.13);
+    color: white;
+    font-family: Lobster;
+    font-size: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    height: 130px;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    padding: .5rem 1rem;
+    border-radius: 4px;
+}
+
+.restart-icon {
+    width: 3rem;
+    height: 3rem;
+    align-self: center;
+    margin-left: 10px;
+    color: white;
+    cursor: pointer;
+}

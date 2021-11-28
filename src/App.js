@@ -1,27 +1,59 @@
-import { useState } from "react";
-import HomeComponent from "./components/HomeComponent/HomeComponent";
-import GameStartComponent from "./components/GameComponent/GameStartComponent";
-import GameEndComponent from "./components/GameComponent/GameEndComponent";
+import { useState, useRef, useEffect } from "react";
 import "./App.css";
 
 import TriviaContext from "./context";
+import { Outlet } from "react-router";
+import { Dialog } from "./utils/dialogUtil";
+
+const welomeMessage = () => {
+  return (
+    <div>
+      <p>Hi Dear! <br /> Welcome to this mini-version of <b>Math Trivia</b>.</p>
+      <p>If you encounter any bug do well to contact the developers.</p>
+      <p>Goto the links at the bottom.</p>
+    </div>
+  )
+}
 
 function App() {
-  const [gameState, setGameState] = useState("home");
+  const score = useRef(0);
+  const [isDialog, setIsDialog] = useState(true);
+  const [user, setUser] = useState('');
+  const dialogContent = useRef(['Welcome to Math Trivia', welomeMessage()]);
+  const appRef = useRef(null);
+
+  const dialogDismiss =()=>{
+    appRef.current.style.filter = 'blur(0px)';
+    appRef.current.style.pointerEvents = 'all';
+    setIsDialog(false);
+  }
+
+  useEffect(()=>{
+      appRef.current.style.filter = 'blur(3px)';
+      appRef.current.style.pointerEvents = 'none';
+    
+  },[]);
+
   return (
 
-    <div className="App">
-      <TriviaContext.Provider value={{ gameState, setGameState }}>
-        {gameState === "home" && <HomeComponent />}
-        {gameState === "start" && <GameStartComponent />}
-        {gameState === "end" && <GameEndComponent />}
-      </TriviaContext.Provider>
+    <TriviaContext.Provider value={{ score, isDialog, setIsDialog, user, setUser, dialogDismiss}}>
+      <div style={{position:'relative'}}>
+        <div ref={appRef} className="App">
 
-      <footer>
-        <p>&copy; Theophilus &amp; Baribor, 2021.</p>
-      </footer>
-    </div>
-    
+          <Outlet />
+          <footer>
+            <p>&copy; <a href='http://github.com/extheoisah'>Theophilus</a> &amp; <a href='https://linkedin.com/in/baribor-saturday'>Baribor</a>, 2021.</p>
+          </footer>
+
+        </div>
+        {
+          isDialog && <Dialog content={dialogContent.current} />
+        }
+      </div>
+
+    </TriviaContext.Provider>
+
+
   );
 }
 

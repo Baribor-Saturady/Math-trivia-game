@@ -1,9 +1,18 @@
+import {useRef,useEffect} from 'react';
+
 import './progressBar.css';
 
- const  ProgressBar =({time})=> {
+ const  ProgressBar =({setTimer})=> {
+
+    const timerRef = useRef();
+
+    useEffect(()=>{
+        setTimer(timerRef);
+    });
+
     return (
         <div className='progressBar'>
-            <div className='indicator' style={{width:`${time}%`}}></div>
+            <div ref={timerRef} className='indicator'></div>
             <div className='blob' id='blob'></div>
         </div>
 

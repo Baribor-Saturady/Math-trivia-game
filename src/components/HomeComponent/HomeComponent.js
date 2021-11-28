@@ -1,29 +1,41 @@
-import React, { useContext } from "react";
-import { FaPlay } from "react-icons/fa";
+import React, { useEffect, useRef, useContext } from "react";
+import {useNavigate} from 'react-router-dom';
+import { FaExclamationCircle, FaPlay } from "react-icons/fa";
 import TriviaContext from "../../context";
 
 import './HomeComponent.css';
 
 const HomeComponent = () => {
-  const { setGameState } = useContext(TriviaContext);
+  const navigate = useNavigate();
+  const user = useRef(null);
+  const error = useRef(null);
+  const logo = useRef(null);
+  const {setUser} = useContext(TriviaContext)
 
   const handleClick = () => {
-    let user = document.getElementById("username");
-    if (!user.value) {
-      alert('Please Enter a userName');
+    
+    if (!user.current.value) {
+      error.current.style.display='block';
       return;
     }
-    setGameState("start");
-
+    setUser(user.current.value);
+    navigate('/start')
   }
+  
+
+  useEffect(() => {
+    logo.current.style.left = '0px';
+  }, [])
+
 
   return (
     <div className='container'>
       <main>
-        <p>Math Trivia</p>
+        <p ref={logo} className='logo'>Math Trivia</p>
 
         <div className="input-layout">
-          <input type="text" name="" id="username" placeholder="Enter player name" maxLength={40} />
+          <input ref={user} type="text" name="" id="username" placeholder="Enter player name" maxLength={40} />
+          <div ref={error} className="error"><FaExclamationCircle color='var(--red)'/><p>Please enter name</p></div>
         </div>
 
           <div className='play-layout' onClick={handleClick}>

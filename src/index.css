@@ -8,6 +8,7 @@
 :root {
     /* COLOR */
     --bg-clr: rgba(191, 242, 224, 0.31);
+    --dialog-bg: rgb(191, 242, 224);
     --pry-clr: rgb(9, 4, 24);
     --green: rgba(62, 218, 114, 0.88);
     --white: rgb(255, 255, 255);

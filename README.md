@@ -40,4 +40,4 @@ You will also see any lint errors in the console.
 
 Theophilus [http://github.com/extheoisah](http://github.com/extheoisah)
 
-Baribor Saturday
+[Baribor Saturday](https://linkedin.com/in/baribor-saturday)
