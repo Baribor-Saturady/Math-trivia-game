@@ -151,8 +151,6 @@ export const GameStartComponent = () => {
   return (
     <>
       <div className="game-start">
-        {console.log("rendering home")
-        }
         <ScoreComponent scoreRef={setScoreRef} />
         <QuestionComponent state={getQuestionState} />
         <ProgressBar setTimer={setTimer} />

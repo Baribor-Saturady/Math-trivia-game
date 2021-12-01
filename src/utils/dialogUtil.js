@@ -134,7 +134,7 @@ const existingUserDialog = (userParam) => {
           <form method="post" onSubmit={handleSubmit} >
             <div className="input-container">
               <div className='input-layout'>
-                <input ref={passwordRef} type="text" placeholder="Enter password" required style={{ marginTop: '5px' }} onChange={handleChange} />
+                <input ref={passwordRef} type="password" placeholder="Enter password" required style={{ marginTop: '5px' }} onChange={handleChange} />
               </div>
               <div ref={error} className="error"><FaExclamationCircle color='var(--red)' /><p></p></div>
             </div>
@@ -176,7 +176,6 @@ const loginDetails = (user) => {
     }
     const handleSubmit = async (evt) => {
       evt.preventDefault();
-      console.log("submitting", passwordRef.current.value);
       let password = passwordRef.current.value;
       if (dialogContent.current.hasUsernameField) {
         username = usernameRef.current.value;
@@ -207,7 +206,6 @@ const loginDetails = (user) => {
         //handleError: username has been taken
         error.current.style.display = 'block';
         error.current.lastChild.innerText = 'username has been taken';
-        console.log('username taken');
         dismissLoading(dialogBodyRef, setLoading);
         return
       }
@@ -248,7 +246,6 @@ const loginDetails = (user) => {
           });
 
       } else {
-        console.log('error creating user');
         dismissLoading(dialogBodyRef, setLoading);
       }
 
@@ -272,7 +269,7 @@ const loginDetails = (user) => {
             }
             <div className="input-container">
               <div className='input-layout'>
-                <input ref={passwordRef} type="text" placeholder="Enter password" required style={{ marginTop: '5px' }} />
+                <input ref={passwordRef} type="password" placeholder="Enter password" required style={{ marginTop: '5px' }} />
               </div>
             </div>
             <input type="submit" value="Submit" className='button bg-success' />
@@ -331,8 +328,6 @@ export const Dialog = ({ stateHandler }) => {
 
   return (
     <>
-      {console.log('dialog', isVisible)
-      }
       {
         isVisible && <div className='dialogContainer'>
           <h5>{dialogContent.current.title}</h5>
