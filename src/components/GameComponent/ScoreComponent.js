@@ -1,4 +1,5 @@
-import {useRef, useEffect, useContext} from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import {useRef, useEffect, useContext, useState} from 'react';
 import TriviaContext from '../../context';
 
 
@@ -15,11 +16,17 @@ const ScoreComponent = ({ scoreRef }) => {
 
   const ref = useRef();
   const {score} = useContext(TriviaContext);
+  const [gameScore, setScore] = useState(null);
 
-  useEffect(()=>scoreRef(ref));
+
+  useEffect(()=>{
+    scoreRef(setScore);
+  },[]);
 
   return (
     <div style={divStyles}>
+      {console.log('score rendered')
+      }
       <h2
         style={{
           color: "#3EDA73",
@@ -36,7 +43,9 @@ const ScoreComponent = ({ scoreRef }) => {
 
         ref={ref}
       >
-        {score.current}
+        {
+          gameScore? gameScore:score.current
+        }
       </p>
     </div>
   );

@@ -29,6 +29,12 @@
 button {
     position: absolute;
     left: 0;
+    top: 0;
+    background-color: var(--green);
+    color: var(--white);
+    cursor: pointer;
+    padding: 3px;
+    border-radius: 5px;
 }
 
 button:hover {

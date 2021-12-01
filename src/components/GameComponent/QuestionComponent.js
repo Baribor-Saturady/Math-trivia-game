@@ -1,6 +1,6 @@
-import React from "react";
+import { useEffect, useState } from 'react';
 
-const QuestionComponent = ({ question }) => {
+const QuestionComponent = ({ state }) => {
     const style = {
         backgroundColor: "rgba(255, 255, 255, 0.13)",
         color: "white",
@@ -17,15 +17,17 @@ const QuestionComponent = ({ question }) => {
         borderRadius: "4px",
     };
 
-    const [quest, answer] = question;
+    const [question, setQuestion] = useState([]);
+
+    useEffect(() => state(setQuestion), []);
 
     return (
         <div style={style}>
-            <p>{quest}</p>
+            <p>{question[0]}</p>
             <p>=</p>
-            <p>{answer}</p>
+            <p>{question[1]}</p>
         </div>
-        );
+    );
 };
 
 export default QuestionComponent;

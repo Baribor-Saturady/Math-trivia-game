@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import CorrectButton from "../Buttons/CorrectButton";
 import WrongButton from "../Buttons/WrongButton";
@@ -8,60 +8,70 @@ import TriviaContext from "../../context";
 import './gameStart.css';
 import ProgressBar from "../ProgressBar";
 import { getQuestion } from "../../utils/questionUtils";
+import { dialogState } from "../../utils/dialogUtil";
+import { updateScore } from "../../utils/generalUtil";
 
+let time = 100;
+let count = 0;
 
 export const GameStartComponent = () => {
-  const { score, user } = useContext(TriviaContext);
-  const [question, setQuestion] = useState(getQuestion());
+  const { score, user, showDialog, dialogContent, authenticated, currentHighScore } = useContext(TriviaContext);
   const navigate = useNavigate();
-  const time = useRef(100);
-  const count = useRef(0);
   const animId = useRef(null);
+  const question = useRef(getQuestion())
   let timerRef;
   let scoreRef;
 
-
   const incrementTime = (amt) => {
 
-    time.current += amt;
-    if (time.current > 100) time.current = 100;
-    timerRef.current.style.width = `${time.current}%`;
+    time += amt;
+    if (time > 100) time = 100;
+    timerRef.current.style.width = `${time}%`;
   }
 
   const decrementTime = (amt) => {
 
-    time.current -= amt;
-    if (time.current <= 0) {
-      navigate('/end');
+    time -= amt;
+    if (time <= 0) {
+      endGame();
       return;
     }
-    timerRef.current.style.width = `${time.current}%`;
+    timerRef.current.style.width = `${time}%`;
 
   }
 
+  let questionState;
+  const getQuestionState = (s) => {
+    questionState = s;
+  }
+
+
+
   const answerHandler = (buttonValue) => {
-    if (buttonValue === question[2]) {
+    if (buttonValue === question.current[2]) {
       incrementTime(10);
       score.current++;
-      scoreRef.current.innerText = score.current;
-      setQuestion(getQuestion());
+      scoreRef(score.current);
     } else {
       decrementTime(10);
-      setQuestion(getQuestion());
     }
+
+    question.current = getQuestion();
+    questionState(question.current);
+
   };
 
   const play = () => {
 
-    count.current++;
+    count++;
 
-    if (count.current % 5 === 0) {
-      count.current = 0;
+    if (count% 5 === 0) {
+      count = 0;
       decrementTime(1);
     }
 
 
-    if (time.current === 0) {
+    if (time === 0) {
       cancelAnimationFrame(animId.current);
       return;
     }
@@ -77,53 +87,74 @@ export const GameStartComponent = () => {
     scoreRef = r;
   }
 
+
+  const handleResponse = (response) => {
+
+    if(authenticated.current===true){
+      
+      if(score.current > currentHighScore.current){
+        //show loading
+        let response = updateScore(score.current, user.current);
+        response.then(data=>{
+          if(data.status===200){
+            currentHighScore.current= score.current;
+            navigate('/end');
+          }else{
+            console.log('error updating')
+          }
+        });
+    
+      }
+      else navigate('/end');
+      return;
+    }
+    switch (response.status) {
+      case 404:
+      case 200:
+        dialogContent.current = {
+          ...dialogState[response.status===404?"startOpen":"startExistingUser"], closeListener: () => {
+            navigate('/end');
+          },
+          argument: user.current,
+        };
+        showDialog();
+        break;
+      default:
+    }
+  }
+
+
   useEffect(() => {
+    question.current = getQuestion();
+    questionState(question.current);
     score.current = 0;
+    count = 0
+    time = 100;
     play();
     
-    document.body.addEventListener('keydown', (event)=>
-                                     {
-            const key = event.key;
-            switch (key) {
-                case "ArrowLeft":
-                    answerHandler(true);
-                    break;
-                case "ArrowRight":
-                    answerHandler(false);
-                    break;
-                default:
-            }
-            
-        });
-
-    return () => {
-      cancelAnimationFrame(animId.current);
-      fetch("https://math-trivia-backend.herokuapp.com/api/scores/", {
-
-        // Adding method type
-        method: "POST",
-
-        // Adding body or contents to send
-        body: JSON.stringify({
-          score: score.current,
-          user: user
-        }),
-
-        // Adding headers to the request
-        headers: {
-          "Content-type": "application/json; charset=UTF-8"
-        }
-      })
-        .catch(() => { });
-    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const endGame = () => {
+    cancelAnimationFrame(animId.current);
+
+    fetch(`https://math-trivia-backend.herokuapp.com/api/scores/${user.current}/`)
+      .then(handleResponse)
+      .catch(() => {
+        console.log('error');
+      });
+  };
+
+
+
 
   return (
     <>
       <div className="game-start">
+        {console.log("rendering home")
+        }
         <ScoreComponent scoreRef={setScoreRef} />
-        <QuestionComponent question={question} />
+        <QuestionComponent state={getQuestionState} />
         <ProgressBar setTimer={setTimer} />
         <div className="btn">
           <CorrectButton answerHandler={answerHandler} />

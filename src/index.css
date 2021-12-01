@@ -35,3 +35,47 @@ footer {
     padding: 5px;
     margin-top: auto;
 }
+
+
+/* Global style */
+
+input {
+    background-color: transparent;
+    color: var(--white);
+    border: none;
+    outline: none;
+    height: 100%;
+    width: 100%;
+    caret-color: var(--green);
+}
+
+.input-container {
+    width: 80%;
+    align-self: center;
+    height: 45px;
+    margin-top: 4px;
+}
+
+.input-layout {
+    background-color: var(--white-accent);
+    padding: 0 10px;
+    border-radius: 2px;
+    height: 35px;
+}
+
+input[type='submit'] {
+    width: 100px;
+    align-self: center;
+}
+
+.error {
+    height: 10px;
+    display: none;
+}
+
+.error * {
+    color: var(--red);
+    font-size: .75em;
+    display: inline-block;
+    margin-right: 3px;
+}

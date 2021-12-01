@@ -13,36 +13,6 @@ main>p:first-child {
     font-size: 3em;
 }
 
-.input-layout {
-    background-color: var(--white-accent);
-    height: 28px;
-    padding: 0 10px;
-    border-radius: 2px;
-    width: 80%;
-}
-
-.error {
-    display: none;
-}
-
-.error * {
-    color: var(--red);
-    font-size: .75em;
-    display: inline-block;
-    margin-right: 3px;
-}
-
-input {
-    background-color: transparent;
-    color: var(--white);
-    border: none;
-    outline: none;
-    height: 100%;
-    width: 100%;
-    caret-color: var(--green);
-    text-transform: capitalize;
-}
-
 .play-layout {
     font-size: 2em;
     font-weight: 600;
@@ -57,7 +27,7 @@ input {
 }
 
 ::placeholder {
-    color: var(--white);
+    color: gray;
     opacity: 1;
 }
 

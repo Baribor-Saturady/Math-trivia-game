@@ -21,7 +21,7 @@ const getFactors = (n)=>{
 }
 
 const getMultDiv = (op)=>{
-    let left = Math.floor(Math.random()*21);
+    let left = Math.floor(Math.random()*21)+1;
     let right;
 
     if(op==='*'){

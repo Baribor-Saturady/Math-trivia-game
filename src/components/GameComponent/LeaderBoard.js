@@ -14,13 +14,15 @@ export default function LeaderBoard() {
   }, []);
 
   return (
-    <div className='leader-board'>
+    <>
       <h4>Leader Board</h4>
-      <ol>
-        {
-          topPlayers && topPlayers.map((x, index) => <li key={index}>{x.user} ({x.score})</li>)
-        }
-      </ol>
-    </div>
+      <div className='leader-board'>
+        <ol>
+          {
+            topPlayers && topPlayers.map((x, index) => <li key={index}>{x.user} ({x.score})</li>)
+          }
+        </ol>
+      </div>
+    </>
   );
 }

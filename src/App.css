@@ -14,6 +14,21 @@
 
 a {
     color: var(--green);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.button {
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+.bg-success {
+    background-color: var(--green);
 }
 
 @media screen and (min-width:768px) {

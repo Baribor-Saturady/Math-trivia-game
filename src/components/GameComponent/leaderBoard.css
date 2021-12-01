@@ -3,7 +3,6 @@
     color: white;
     font-family: Lobster;
     font-size: 1rem;
-    width: 400px;
     height: 160px;
     margin-top: 1rem;
     padding: .5rem 1rem;
@@ -11,6 +10,20 @@
     display: flex;
     flex-flow: column;
     overflow-y: scroll;
+    scrollbar-color: var(--white-accent) var(--green);
+}
+
+.leader-board::-webkit-scrollbar {
+    width: 11px;
+}
+
+.leader-board::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.leader-board::-webkit-scrollbar-thumb {
+    background-color: var(--green);
+    border-radius: 10px;
 }
 
 .leader-board h4 {

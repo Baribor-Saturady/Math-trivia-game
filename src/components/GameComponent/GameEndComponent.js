@@ -19,11 +19,9 @@ const GameEndComponent = () => {
         <p>{score.current}</p>
       </div>
       <ProgressBar setTimer={() => { }} />
-      <div style={{ display: 'flex' }}>
+      <div className='leader-board-layout'>
         <LeaderBoard />
-        <Link to='/start' style={{ alignSelf: 'center', marginLeft: '10px' }}>
-          <RetryButton />
-        </Link>
+        <RetryButton/>
       </div>
       <Link to='/'>
         <button>
