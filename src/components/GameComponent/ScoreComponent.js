@@ -25,8 +25,7 @@ const ScoreComponent = ({ scoreRef }) => {
 
   return (
     <div style={divStyles}>
-      {console.log('score rendered')
-      }
+      
       <h2
         style={{
           color: "#3EDA73",

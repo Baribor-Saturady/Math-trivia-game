@@ -15,7 +15,7 @@ let time = 100;
 let count = 0;
 
 export const GameStartComponent = () => {
-  const { score, user, showDialog, dialogContent, authenticated, currentHighScore } = useContext(TriviaContext);
+  const { score, user, showDialog, dismissDialog, dialogContent, authenticated, currentHighScore } = useContext(TriviaContext);
   const navigate = useNavigate();
   const animId = useRef(null);
   const question = useRef(getQuestion())
@@ -93,11 +93,11 @@ export const GameStartComponent = () => {
     if(authenticated.current===true){
       
       if(score.current > currentHighScore.current){
-        //show loading
         let response = updateScore(score.current, user.current);
         response.then(data=>{
           if(data.status===200){
             currentHighScore.current= score.current;
+            dismissDialog();
             navigate('/end');
           }else{
             console.log('error updating')
@@ -105,9 +105,13 @@ export const GameStartComponent = () => {
         });
     
       }
-      else navigate('/end');
+      else{
+        dismissDialog();
+        navigate('/end');
+      }
       return;
     }
+    dismissDialog();
     switch (response.status) {
       case 404:
       case 200:
@@ -137,6 +141,8 @@ export const GameStartComponent = () => {
 
   const endGame = () => {
     cancelAnimationFrame(animId.current);
+    dialogContent.current = dialogState['loading']
+    setTimeout(showDialog,10);
 
     fetch(`https://math-trivia-backend.herokuapp.com/api/scores/${user.current}/`)
       .then(handleResponse)

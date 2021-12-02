@@ -11,6 +11,7 @@
     flex-flow: column;
     overflow-y: scroll;
     scrollbar-color: var(--white-accent) var(--green);
+    position: relative;
 }
 
 .leader-board::-webkit-scrollbar {

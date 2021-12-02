@@ -16,7 +16,11 @@ export default function LeaderBoard() {
   return (
     <>
       <h4>Leader Board</h4>
+
       <div className='leader-board'>
+      {
+        !topPlayers && <div className='loader' style={{ position: 'relative' }}></div>
+      }
         <ol>
           {
             topPlayers && topPlayers.map((x, index) => <li key={index}>{x.user} ({x.score})</li>)

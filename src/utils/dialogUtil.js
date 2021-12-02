@@ -287,6 +287,31 @@ const loginDetails = (user) => {
 };
 
 
+const loadingDialog = ()=>{
+
+  const Body = ()=>{
+    const dialogBodyRef = useRef();
+    const [loading, setLoading] = useState(false);
+
+    useEffect(()=>{
+      showLoading(dialogBodyRef, setLoading);
+    },[]);
+
+    return(
+      <div>
+        <div ref={dialogBodyRef}>
+          <p></p>
+        </div>
+        {
+          loading && <div className='loader'></div>
+        }
+      </div>
+    );
+  }
+  return <Body />
+}
+
+
 export const dialogState = {
   'home': {
     title: 'Welcome to Math Trivia',
@@ -307,6 +332,11 @@ export const dialogState = {
   'accountCreationSuccessful': {
     title: 'Congratulations!!!',
     body: createdUser
+  },
+
+  'loading':{
+    title: '',
+    body: loadingDialog
   }
 }
 
